@@ -1,3 +1,8 @@
+const sharePopup = document.getElementById("sharePopup");
+const btnCopyLink = document.getElementById("btnCopyLink");
+const btnClosePopup = document.getElementById("btnClosePopup");
+const shareLink = document.getElementById("shareLink");
+
 const drawerHome = document.getElementById("drawerHome");
 const drawerRoute = document.getElementById("drawerRoute");
 const btnShareSmall = document.getElementById("btnShareSmall");
@@ -206,7 +211,9 @@ btnStart.addEventListener("click", () => {
 // --- Share button logic (moved globally) ---
 btnShare.addEventListener("click", async () => {
   const text = `WalkAlly safe route — ETA 18 min, Safety Score ${scoreTxt.textContent}/10`;
-  if (navigator.share) {
+
+  if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
+    // ✅ Native share on mobile
     try {
       await navigator.share({
         title: "WalkAlly",
@@ -215,9 +222,9 @@ btnShare.addEventListener("click", async () => {
       });
     } catch {}
   } else {
-    await navigator.clipboard.writeText(text);
-    toast.classList.remove("hidden");
-    setTimeout(() => toast.classList.add("hidden"), 1500);
+    // ✅ Fake popup on desktop
+    sharePopup.classList.remove("hidden");
+    document.getElementById("shareLink").value = text; // put text in popup input
   }
 });
 
@@ -323,38 +330,3 @@ document.getElementById("btnBackToMap").addEventListener("click", () => {
   toggleRisk.classList.remove("hidden"); // show Risk button again
 });
 
-// Fake Share Popup elements
-const sharePopup = document.getElementById("sharePopup");
-const btnCopyLink = document.getElementById("btnCopyLink");
-const btnClosePopup = document.getElementById("btnClosePopup");
-const shareLink = document.getElementById("shareLink");
-
-// Override Share button behavior
-btnShare.addEventListener("click", async () => {
-  const text = `WalkAlly safe route — ETA ${etaTxt.textContent}, Safety Score ${scoreTxt.textContent}/10`;
-  
-  if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
-    // Mobile devices → use native share
-    try {
-      await navigator.share({
-        title: "WalkAlly",
-        text,
-        url: window.location.href,
-      });
-    } catch {}
-  } else {
-    // Desktop → show fake popup
-    sharePopup.classList.remove("hidden");
-  }
-});
-
-// Fake popup buttons
-btnCopyLink.addEventListener("click", async () => {
-  await navigator.clipboard.writeText(shareLink.value);
-  alert("✅ Link copied!");
-  sharePopup.classList.add("hidden");
-});
-
-btnClosePopup.addEventListener("click", () => {
-  sharePopup.classList.add("hidden");
-});
