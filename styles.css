@@ -1,0 +1,307 @@
+:root {
+  --blue: #16a2c5;
+  --green: #1fae6b;
+  --white: #ffffff;
+  --gray: #f2f2f2;
+  --dark: #1d1d1f;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
+}
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+
+/* Phone-like canvas */
+#app {
+  max-width: 390px; /* iPhone 12 width */
+  height: 844px; /* iPhone 12 height */
+  margin: 0 auto;
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background: #fff;
+}
+
+/* Top bar */
+.topbar {
+  height: 56px;
+  background: var(--blue);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  font-weight: 700;
+}
+.icon-btn {
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+}
+.brand {
+  font-size: 18px;
+}
+
+/* Map */
+#map {
+  position: absolute;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 80px;
+}
+
+.toggle {
+  position: absolute;
+  right: 12px;
+  top: 70px;
+  background: var(--green);
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 2000; /* stays above map & cards */
+}
+.hidden {
+  display: none;
+}
+
+/* Bottom drawer */
+.drawer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 80px;
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), #fff);
+  border-top: 1px solid #e9e9e9;
+}
+.btn {
+  flex: 1;
+  border-radius: 14px;
+  padding: 14px 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid transparent;
+  font-size: 16px;
+}
+.btn-primary {
+  background: var(--green);
+  color: #fff;
+}
+.btn-secondary {
+  background: #fff;
+  color: var(--green);
+  border-color: var(--green);
+}
+.btn-blue {
+  background: var(--blue);
+  color: #fff;
+}
+.btn-ghost {
+  background: #fff;
+  color: var(--green);
+  border-color: #fff;
+}
+.btn.sm {
+  padding: 10px 12px;
+  font-size: 14px;
+}
+.btn.block {
+  width: 100%;
+}
+
+/* Panels (slide-in covering map + drawer, leaving topbar visible) */
+.panel {
+  position: absolute;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--green);
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  padding: 18px;
+
+  z-index: 1000;
+}
+.panel.open {
+  transform: translateX(0);
+}
+.panel-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: stretch;
+  margin-top: 20px;
+  padding: 0 10px;
+}
+
+.panel-title {
+  color: #fff;
+  margin: 8px 0 4px 0;
+  text-align: center;
+}
+.center {
+  align-items: center;
+  justify-content: center;
+}
+.big {
+  font-size: 56px;
+}
+
+/* Search */
+.search {
+  background: #fff;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  gap: 8px;
+  border: 1px solid #e6e6e6;
+}
+.search input {
+  border: 0;
+  outline: none;
+  flex: 1;
+  font-size: 16px;
+}
+.icon {
+  opacity: 0.8;
+}
+
+/* Route info card */
+.card {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 90px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  z-index: 1000;
+}
+.card .row {
+  display: flex;
+  justify-content: space-between;
+  color: #333;
+}
+.card .gap {
+  gap: 10px;
+  margin-top: 6px;
+}
+.card .score {
+  margin-top: 6px;
+  color: var(--green);
+  font-weight: 800;
+  text-align: center;
+}
+.hidden {
+  display: none;
+}
+
+/* Grid for hazards */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+.tile {
+  background: #fff;
+  border: 2px solid var(--green);
+  border-radius: 14px;
+  padding: 18px 8px;
+  text-align: center;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Hints/labels */
+.hint {
+  color: #fff;
+  opacity: 0.9;
+  font-size: 13px;
+  margin: -6px 0 8px 0;
+  text-align: center;
+}
+
+/* Toast */
+.toast {
+  position: absolute;
+  bottom: 180px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+}
+
+.icon-btn {
+  border: none;
+  background: #fff;
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Make the "Find Safe Route" button smaller and centered */
+#btnFind {
+  align-self: center;
+  width: auto;
+  padding: 10px 16px;
+  font-size: 15px;
+}
+
+.grid-item {
+  background: #fff;
+  border: 2px solid var(--green);
+  border-radius: 16px; /* softer edges */
+  padding: 18px 12px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* subtle shadow */
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Nice interaction on hover/press */
+.grid-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 700;
+  gap: 6px;
+}
+
+.brand .logo {
+  height: 24px; /* adjust size */
+  width: auto;
+}

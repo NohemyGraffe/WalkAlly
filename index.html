@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>WalkAlly – Safe Walking Demo</title>
+
+    <!-- Leaflet CDN -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <!-- Add this in <head> of index.html -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"
+  />
+  <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+
+  <body>
+    <div id="app">
+      <!-- Top bar -->
+      <header class="topbar">
+        <div class="brand">
+          <img src="logo.png" alt="WalkAlly logo" class="logo" />
+          WalkAlly
+        </div>
+
+        <button class="icon-btn" aria-label="Settings">⚙️</button>
+      </header>
+
+      <!-- Map -->
+      <div id="map"></div>
+
+      <!-- Floating toggle -->
+      <button id="toggleRisk" class="toggle">Risk: ON</button>
+
+      <!-- Bottom drawer -->
+      <div class="drawer">
+        <button id="btnPlan" class="btn btn-primary">🚶 Plan Route</button>
+        <button id="btnReport" class="btn btn-secondary">
+          ⚠️ Report Hazard
+        </button>
+      </div>
+
+      <!-- Route info card (appears after planning) -->
+      <div id="routeCard" class="card hidden">
+        <div class="row">
+          <div>ETA: <strong id="etaTxt">—</strong></div>
+          <div>Distance: <strong id="distTxt">—</strong></div>
+        </div>
+        <div class="score">Safety Score: <strong id="scoreTxt">—</strong></div>
+        <div class="row gap">
+          <button id="btnStart" class="btn btn-primary sm">Start</button>
+          <button id="btnShare" class="btn btn-blue sm">Share</button>
+        </div>
+      </div>
+
+      <!-- Slide-in PLAN panel -->
+      <section id="planPanel" class="panel">
+        <div class="panel-inner">
+          <div class="search">
+            <span class="icon">🔍</span>
+            <input
+              id="destInput"
+              type="text"
+              placeholder="Where do you want to go?"
+            />
+            <span class="icon">🎤</span>
+          </div>
+          <button id="btnFind" class="btn btn-ghost" disabled>
+            🚶‍♀️ Find Safe Route
+          </button>
+        </div>
+      </section>
+
+      <!-- Report: Step 1 (duration choice) -->
+      <section id="reportStep1" class="panel">
+        <div class="panel-inner">
+          <h2 class="panel-title">Select hazard duration</h2>
+          <button id="btnShort" class="btn btn-ghost block">
+            ⏱ Short Term Hazard
+          </button>
+          <p class="hint">
+            Do you consider this hazard to last under 12 hours?
+          </p>
+          <button id="btnLong" class="btn btn-ghost block">
+            🕒 Long Term Hazard
+          </button>
+          <p class="hint">Do you consider this hazard to last over 12 hours?</p>
+        </div>
+      </section>
+
+      <!-- Report: Step 2 (categories) -->
+      <section id="reportStep2" class="panel">
+        <div class="panel-inner">
+          <h2 class="panel-title" id="step2Title">Select a hazard</h2>
+          <div id="grid" class="grid"></div>
+          <button id="btnSubmitHazard" class="btn btn-ghost block">
+            Submit Hazard Report
+          </button>
+        </div>
+      </section>
+
+      <!-- Report: Confirmation -->
+      <section id="reportDone" class="panel">
+        <div class="panel-inner center">
+          <div class="big">✅</div>
+          <h2 class="panel-title">Thank you!</h2>
+          <p class="hint">Your report helps others stay safe.</p>
+          <button id="btnBackToMap" class="btn btn-ghost block">
+            Return to Map
+          </button>
+        </div>
+      </section>
+
+      <!-- Toast -->
+      <div id="toast" class="toast hidden">Copied share text</div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
