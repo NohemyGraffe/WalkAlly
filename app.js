@@ -322,3 +322,39 @@ document.getElementById("btnBackToMap").addEventListener("click", () => {
   reportDoneEl.classList.remove("open");
   toggleRisk.classList.remove("hidden"); // show Risk button again
 });
+
+// Fake Share Popup elements
+const sharePopup = document.getElementById("sharePopup");
+const btnCopyLink = document.getElementById("btnCopyLink");
+const btnClosePopup = document.getElementById("btnClosePopup");
+const shareLink = document.getElementById("shareLink");
+
+// Override Share button behavior
+btnShare.addEventListener("click", async () => {
+  const text = `WalkAlly safe route — ETA ${etaTxt.textContent}, Safety Score ${scoreTxt.textContent}/10`;
+  
+  if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
+    // Mobile devices → use native share
+    try {
+      await navigator.share({
+        title: "WalkAlly",
+        text,
+        url: window.location.href,
+      });
+    } catch {}
+  } else {
+    // Desktop → show fake popup
+    sharePopup.classList.remove("hidden");
+  }
+});
+
+// Fake popup buttons
+btnCopyLink.addEventListener("click", async () => {
+  await navigator.clipboard.writeText(shareLink.value);
+  alert("✅ Link copied!");
+  sharePopup.classList.add("hidden");
+});
+
+btnClosePopup.addEventListener("click", () => {
+  sharePopup.classList.add("hidden");
+});
